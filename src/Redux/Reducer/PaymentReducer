@@ -1,0 +1,38 @@
+import { 
+    PAYMENT_REQUEST, 
+    PAYMENT_SUCCESS, 
+    PAYMENT_FAIL 
+} from '../Constants/Constants';
+
+const initialState = {
+    payment: null,
+    error: null,
+    loading: false,
+};
+
+export default function paymentReducer(state = initialState, action) {
+    switch (action.type) {
+        case PAYMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null, // Clear previous errors when making a new request
+            };
+        case PAYMENT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                payment: action.payload, // Store payment data in the state
+                error: null, // Clear any previous error
+            };
+        case PAYMENT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                payment: null, // Reset payment data in case of error
+                error: action.payload, // Store error message from the action
+            };
+        default:
+            return state;
+    }
+}
